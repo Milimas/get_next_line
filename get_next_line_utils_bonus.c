@@ -6,7 +6,7 @@
 /*   By: abeihaqi <abeihaqi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 19:57:33 by abeihaqi          #+#    #+#             */
-/*   Updated: 2022/10/24 04:51:58 by abeihaqi         ###   ########.fr       */
+/*   Updated: 2022/10/26 01:38:01 by abeihaqi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	*ft_memcpy(void *dst, const void *src, size_t n)
 	return (dst);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char *s1, char const *s2)
 {
 	size_t	s1len;
 	size_t	s2len;
@@ -38,7 +38,9 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	if (!str)
 		return (NULL);
 	ft_memcpy(str, s1, s1len);
-	ft_memcpy(str + s1len, s2, s2len + 1);
+	ft_memcpy(str + s1len, s2, s2len);
+	str[s1len + s2len] = 0;
+	free(s1);
 	return (str);
 }
 
@@ -74,10 +76,10 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
 	char	*sub;
 
-	if (!s)
-		return (NULL);
 	if (len > (size_t)(ft_strchr((char *)s + start, 0) - s + start))
 		len = ft_strchr((char *)s + start, 0) - s + start;
+	if (len <= 0 || !s)
+		return (NULL);
 	sub = (char *)malloc((len + 1) * sizeof(char));
 	if (!sub)
 		return (NULL);
